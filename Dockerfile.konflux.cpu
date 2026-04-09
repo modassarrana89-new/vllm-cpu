@@ -133,6 +133,7 @@ RUN microdnf install --nodocs -y util-linux && \
 
 # consume previously built wheels
 RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=cache,from=builder-base,source=/root/.cache/uv,target=/root/.cache/uv,ro \
     --mount=type=cache,from=builder-base,source=/wheelsdir/,target=/wheelsdir/,ro \
     export PKG_CONFIG_PATH=$(find / -type d -name "pkgconfig" 2>/dev/null | tr '\n' ':') && \
     # --offline will ensure wheels are picked from uv cache and nothing is pulled from pypi/built from source
